@@ -1,0 +1,11 @@
+.idea
+.vscode
+.settings
+node_modules
+typings
+bower_components
+
+package-lock.json
+
+
+

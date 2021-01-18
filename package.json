@@ -1,0 +1,18 @@
+{
+  "name": "node-websocket",
+  "version": "0.0.1",
+  "description": "即时通讯",
+  "main": "",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chenlogin/nodejs-websocket.git"
+  },
+  "author": "meng",
+  "license": "",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^3.0.5"
+  },
+  "devDependencies": {}
+}
