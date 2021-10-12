@@ -1,3 +1,5 @@
+//import io from 'socket.io-client';
+
 (function () {
     window.CHAT = {
         msgObj:document.getElementById("message"),
@@ -66,9 +68,13 @@
             this.username = username;
             document.getElementById("showusername").innerHTML = this.username;
  
-            //连接websocket后端服务器,多设备时用ip访问
-            this.socket = io.connect('ws://localhost:3000/');
+            //连接websocket后端服务器
+            this.socket = io.connect('ws://10.200.196.239:1700/');// ws://localhost:1700/
  
+            this.socket.on('connect', function(){
+                console.log("client info:", "====连接成功")
+            });
+
             //告诉服务器端有用户登录
             this.socket.emit('login', {userid:this.userid, username:this.username});
  
@@ -86,11 +92,10 @@
             this.socket.on('message', function(obj){
                 var section = document.createElement('section');
                 section.className = obj.userid == CHAT.userid ? 'user' : 'service';
-                section.innerHTML = `<div>${obj.content}</div><span>${obj.username}</span>`;
+                section.innerHTML = `<div>${obj.username}:</div><p>${obj.content}</p>`;
                 
                 CHAT.msgObj.appendChild(section);
             });
- 
         }
     };
     //通过“回车”提交用户名
@@ -107,4 +112,12 @@
             CHAT.submit();
         }
     };
+
+
+
+
+
+
+
+
 })();

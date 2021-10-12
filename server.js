@@ -1,18 +1,23 @@
 const express = require('express');
 const path = require('path')
+const { exec } = require('child_process')
+const { getLocalIPv4 } = require('./utils')
+
 const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
-//router
+//静态资源
 app.use(express.static(path.join(__dirname, 'publish')));
 
 //在线用户
 let onlineUsers = {}, onlineCount = 0;
  
 io.on('connection', function(socket){
-    console.log('a user connected');
      
+
+    console.log("server info:", "====连接成功")
+
     //监听新用户加入
     //when the client emits 'login', this listens and executes
     socket.on('login', function(obj){
@@ -27,7 +32,7 @@ io.on('connection', function(socket){
          
         //向所有客户端广播用户加入
         io.emit('login', {onlineUsers:onlineUsers, onlineCount:onlineCount, user:obj});
-        console.log(obj.username+'加入了聊天室');
+        console.log(obj.username + '进入了聊天室');
     });
      
     //监听用户退出
@@ -44,7 +49,7 @@ io.on('connection', function(socket){
              
             //向所有客户端广播用户退出
             io.emit('logout', {onlineUsers:onlineUsers, onlineCount:onlineCount, user:obj});
-            console.log(obj.username+'退出了聊天室');
+            console.log(obj.username + '离开了聊天室');
         }
     });
      
@@ -52,12 +57,25 @@ io.on('connection', function(socket){
     socket.on('message', function(obj){
         //向所有客户端广播发布的消息
         io.emit('message', obj);
-        console.log(obj.username+'说：'+obj.content);
+        console.log(obj.username + '说：' + obj.content);
     });
 });
- 
-server.listen(3000, function(){
-    console.log('Server listening at port 3000');
+
+server.listen(1700, function(){
+    console.log('Server listening at port 1700');
+    var cmd = '';
+    var ip = getLocalIPv4().address;
+    var url = `http://${ ip ? ip : 'localhost' }:1700`;
+    
+    switch(process.platform){
+        case 'wind32':
+            cmd = 'start'; break;
+        case 'linux':
+            cmd = 'xdg-open'; break;
+        case 'darwin':
+            cmd = 'open'; break;
+    }
+    exec(cmd + ' ' + url);
 });
 
 

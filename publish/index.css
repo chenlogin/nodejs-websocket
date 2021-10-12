@@ -1,3 +1,5 @@
+p{margin: 0;}
+
 #loginbox{ width:260px; margin:200px auto;}
 #loginbox .text{margin-bottom: 20px;}
 
@@ -5,3 +7,10 @@
 #chatbox .title{background:#3d3d3d;height:30px; line-height:30px;color:#fff;}
 #chat #message{background-color: #cdcdcd;min-height: 500px;}
 #chat #message #onlinecount{background:#EFEFF4; margin:10px 0; color:#666;}
+
+#chat #message .msg-system{font-size: 12px;color: grey;}
+
+#chat #message .user div{ color: green;}
+#chat #message .service div{ color: blue;}
+#chat #message .user p{ word-wrap: break-word;width: 60%;}
+
