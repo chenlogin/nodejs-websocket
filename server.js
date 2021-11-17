@@ -15,9 +15,7 @@ let onlineUsers = {}, onlineCount = 0;
  
 io.on('connection', function(socket){
      
-
     console.log("server info:", "====连接成功")
-
     //监听新用户加入
     //when the client emits 'login', this listens and executes
     socket.on('login', function(obj){

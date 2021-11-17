@@ -3,6 +3,7 @@ var { cloneDeep } = require('lodash');
 var { getLocalIPv4 } = require('./utils');
 var net = require('net')
 var Socket = net.Socket
+var ping = require('node-http-ping')
 
 /**
  * 根据子网掩码计算网段的ip区间
@@ -119,9 +120,28 @@ function socketScan(host, port) {
     })
 }
 
+function pingHealth(){
+  // Using http by default
+  ping('baidu.com', 80 /* optional */)
+    .then(time => console.log(`Response time: ${time}ms`))
+    .catch(() => console.log(`Failed to ping google.com`))
+  
+  // Or use https
+  ping('https://www.baidu.com')
+    .then(time => console.log(`Response time: ${time}ms`))
+    .catch(() => console.log('Failed to ping google.com'))
+}
+
 scan(1700).then((res) => {
 
     console.log('active_ips: ', res)
+    pingHealth()
     return res[0]//获取第一个
 })
+
+
+
+
+
+
 
